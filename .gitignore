@@ -1,2 +1,5 @@
 node_modules
-config
+coverage
+/config/*
+!/config/example.env
+!/config/test.env
