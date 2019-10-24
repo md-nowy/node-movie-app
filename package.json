@@ -20,6 +20,7 @@
   "homepage": "https://github.com/md-nowy/movie-app-node#readme",
   "dependencies": {
     "express": "4.17.1",
+    "got": "^9.6.0",
     "mongodb": "3.3.3",
     "mongoose": "5.7.6"
   },
