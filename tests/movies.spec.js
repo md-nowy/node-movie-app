@@ -3,11 +3,6 @@ const app = require("../src/app")
 const Movie = require("../src/models/movies")
 const { clearDataBase, seedDataBase } = require("./fixtures/db")
 
-jest.mock("../src/utils/movieDetails", () => () => ({
-	Title: "So far so good",
-	Year: 2019
-}))
-
 describe("/movies", () => {
 	beforeEach(clearDataBase)
 	describe("when data being fetched", () => {
@@ -32,22 +27,43 @@ describe("/movies", () => {
 		})
 	})
 	describe("when data being created", () => {
-		it("creates new movie", async () => {
-			const postedMovie = {
-				watched: true,
-				favorite: false,
-				title: "So far"
-			}
-			const response = await request(app)
-				.post("/movies")
-				.send(postedMovie)
-				.expect(201)
+		describe("when data is valid", () => {
+			it("creates new movie", async () => {
+				const postedMovie = {
+					watched: true,
+					favorite: false,
+					title: "So far"
+				}
+				const response = await request(app)
+					.post("/movies")
+					.send(postedMovie)
+					.expect(201)
 
-            delete postedMovie.title
-			expect(response.body).toMatchObject(postedMovie)
+				delete postedMovie.title
+				expect(response.body).toMatchObject(postedMovie)
 
-			const savedMovie = Movie.findById(response.body._id)
-			expect(savedMovie).not.toBeNull()
+				const savedMovie = Movie.findById(response.body._id)
+				expect(savedMovie).not.toBeNull()
+			})
+		})
+		describe("when data is invalid", () => {
+			it("does not create new movie if title is missing", async () => {
+				const postedMovie = {
+					watched: true,
+					favorite: false,
+					title: ""
+				}
+				const response = await request(app)
+					.post("/movies")
+					.send(postedMovie)
+					.expect(400)
+
+				delete postedMovie.title
+				expect(response.body).toHaveProperty('error');
+	
+				const allMovies = await Movie.find({})
+				expect(allMovies).toHaveLength(0)
+			})
 		})
 	})
 })

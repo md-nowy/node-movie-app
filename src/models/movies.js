@@ -20,6 +20,15 @@ const movieSchema = new mongoose.Schema(
 	}
 )
 
+movieSchema.pre("save", async function(next) {
+	const movie = this
+	const details = movie.details
+	const isMovieDuplicate = await Movie.find({ details: details })
+	if (isMovieDuplicate.length > 0) {
+		next(new Error("Movie was already saved"))
+	}
+	next()
+})
 
 const Movie = mongoose.model("Movie", movieSchema)
 
