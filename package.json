@@ -11,6 +11,9 @@
 	"jest": {
 		"testEnvironment": "node"
 	},
+	"pre-commit": [
+		"test"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/md-nowy/movie-app-node.git"
@@ -33,6 +36,7 @@
 		"env-cmd": "8.0.2",
 		"jest": "24.9.0",
 		"nodemon": "1.19.4",
+		"pre-commit": "^1.2.2",
 		"supertest": "^4.0.2"
 	}
 }
