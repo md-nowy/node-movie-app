@@ -34,3 +34,9 @@ Alternatively you can run application with MongoDB in containerized way.
     1. Set an environment variable `OMDB_API_KEY` with proper value
     1. run command `docker-compose up`
 1. Call endpoints at `http://localhost:8080`
+
+## Tests
+
+Automated tests can be triggered as a part of development process in following scenarios:
+* in watcher mode - tests are triggered automatically when saving a file - by running command `npm test`
+* as a pre-commit hook - tests are triggered automatically before commiting changes, which also prints well-structured test report (alternatively you can run command `npm run pre-commit-test`)
